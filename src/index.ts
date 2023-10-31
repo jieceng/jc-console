@@ -21,7 +21,6 @@ export type BrowserConsoleOptions = StyleOptions &
   ThemeColor & {
     interceptor?: (arg: string, ...resetArgs: string[]) => any;
   };
-
 export default class BrowserConsole {
   public bg?: string;
 
@@ -81,6 +80,8 @@ export default class BrowserConsole {
       const interceptorResult = this.interceptor(texts, ...styles);
       if (interceptorResult) {
         console?.log(...interceptorResult);
+      }else{
+        console?.log(texts, ...styles);
       }
     } else {
       console?.log(texts, ...styles);
@@ -149,7 +150,7 @@ export default class BrowserConsole {
     });
   }
 
-  img(params: string, width: string, height: string): void;
+  img(url: string, width: string, height: string): void;
 
   img(params: { url: string; width?: string; height?: string }): void;
 

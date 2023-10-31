@@ -2,26 +2,22 @@ import commonjs from '@rollup/plugin-commonjs'
 import resolve from '@rollup/plugin-node-resolve'
 import typescript from 'rollup-plugin-typescript2'
 import alias from '@rollup/plugin-alias'
-import terser from '@rollup/plugin-terser'
 import dts from 'rollup-plugin-dts'
-
-import { fileURLToPath } from 'node:url'
+import { rootDir } from './utils/path.js'
 import path from 'node:path'
-console.log(process.env)
-// current dir
-const __dirname = fileURLToPath(new URL('.', import.meta.url))
+
 
 // out public dir
 const publicDir  = 'lib'
 
 // resovle public dir path
 function resolvePublicPath(...paths){
-  return path.resolve(__dirname, publicDir, ...paths)
+  return path.resolve(rootDir, publicDir, ...paths)
 }
 
 // resolve current path
 function resolvePath(...paths){
-  return path.resolve(__dirname, ...paths)
+  return path.resolve(rootDir, ...paths)
 }
 
 // entry
@@ -64,10 +60,9 @@ const rollupOptions = [
       commonjs(),
       alias({
         entries: [
-          { find: /^@\//, replacement:  path.join(__dirname, 'src/')}, 
+          { find: /^@\//, replacement:  path.join(rootDir, 'src/')}, 
         ]
       }),
-      terser(),
       typescript({
         useTsconfigDeclarationDir: true
       }),
