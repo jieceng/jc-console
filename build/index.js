@@ -6,10 +6,19 @@ import PrettyError from "pretty-error";
 import { buildDir } from "./utils/path.js";
 import { resolve } from "node:path";
 const cliArgs = process.argv.slice(2);
-const args = minimist(cliArgs);
 
+const args = minimist(cliArgs);
 const mode = args.mode || args.m;
 const pe = new PrettyError();
+
+// args transformat
+function argsToExeca(){
+  return cliArgs.reduce((last, next)=>{
+    last.push(...next.split('='));
+    return last;
+  },[])
+}
+
 
 // start
 async function bootstart() {
@@ -18,9 +27,10 @@ async function bootstart() {
   try {
     const configPath = resolve(
       buildDir,
-      `rollup.${mode === "production" ? "prod" : "dev"}.js`
+      `config.${mode === "production" ? "prod" : "dev"}.js`
     );
-    await execa("rollup", ["-c", resolve(buildDir, "rollup.dev.js"), ...cliArgs]);
+    let res = await execa("rollup", ["-c", resolve(buildDir, configPath),...argsToExeca()]);
+    console.log(!!res)
     const endTime = (+new Date())
     spinner.succeed(chalk.green(`打包成功: ${endTime-startTime}ms`));
   } catch (e) {
@@ -30,4 +40,3 @@ async function bootstart() {
 }
 
 bootstart();
-console.log(buildDir);

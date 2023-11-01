@@ -2,7 +2,8 @@ import commonjs from '@rollup/plugin-commonjs'
 import resolve from '@rollup/plugin-node-resolve'
 import typescript from 'rollup-plugin-typescript2'
 import alias from '@rollup/plugin-alias'
-import dts from 'rollup-plugin-dts'
+import serve from 'rollup-plugin-serve';
+import livereload from 'rollup-plugin-livereload';
 import { rootDir } from './utils/path.js'
 import path from 'node:path'
 
@@ -16,12 +17,12 @@ function resolvePublicPath(...paths){
 }
 
 // resolve current path
-function resolvePath(...paths){
+function resolveRootPath(...paths){
   return path.resolve(rootDir, ...paths)
 }
 
 // entry
-const entry = resolvePath('src/index.ts');
+const entry = resolveRootPath('src/index.ts');
 
 // config
 
@@ -31,28 +32,12 @@ const entry = resolvePath('src/index.ts');
 const rollupOptions = [
   {
     input: entry,
-    output: [
-      {
-        file: resolvePublicPath('src/bundle.cjs.js'),
-        format: 'cjs',
-        name: 'BrowserConsole',
-      },
-      {
-        file: resolvePublicPath('src/bundle.umd.js'),
-        format: 'umd',
-        name: 'BrowserConsole',
-      },
-      {
-        file: resolvePublicPath('src/bundle.es.js'),
-        format: 'es',
-        name: 'BrowserConsole',
-      },
-      {
-        file: resolvePublicPath('src/bundle.iife.js'),
-        format: 'iife',
-        name: 'BrowserConsole',
-      },
-    ],
+    output: {
+      file: resolvePublicPath('src/browser-console.js'),
+      format: 'umd',
+      name: 'BrowserConsole',
+      sourcemap: 'inline'
+    },
     plugins: [
       resolve({
         extensions: ['.js', '.ts'],
@@ -64,14 +49,25 @@ const rollupOptions = [
         ]
       }),
       typescript({
-        useTsconfigDeclarationDir: true
+        tsconfigOverride: {
+          compilerOptions: {
+            sourceMap: true,
+          }
+        }
       }),
+      serve({
+        open: true,
+        openPage: '/example/index.html',
+        host: 'localhost',
+        port: 5501,
+      }),
+      livereload(),
     ],
-  },
-  {
-    input: entry,
-    output: [{ file: resolvePublicPath('types/index.d.ts'), format: "esm" }],
-    plugins: [dts()],
+    watch: {
+      // 配置监听选项
+      include: 'src/**',
+      exclude: 'node_modules/**',
+    },
   },
 ]
 

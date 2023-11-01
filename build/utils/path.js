@@ -7,14 +7,18 @@ function getCurrentDirname(importMetaUrl) {
 
 const __dirname = getCurrentDirname(import.meta.url)
 
+// 项目根路径
 const rootDir = resolve(__dirname, '../../')
+
+// 源码目录
+const srcDir = resolveRootPath('src')
+
+// 打包目录
+const buildDir = resolveRootPath('build')
 
 function resolveRootPath(...paths){
     return resolve(__dirname,rootDir,...paths)
 }
-
-const srcDir = resolveRootPath('src')
-const buildDir = resolveRootPath('build')
 
 export {
     rootDir,
