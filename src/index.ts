@@ -22,19 +22,19 @@ export interface ThemeColor {
 
 export type interceptorOptions = Array<{text: string; style: CSSProperties, type: string}>;
 
-export interface BrowserConsoleConfig {
+export interface JcConsoleConfig {
   interceptor?: (options:interceptorOptions) => interceptorOptions | void;
   type?: string;
 }
 
 
-export type BrowserConsoleOptions = 
+export type JcConsoleOptions = 
   StyleOptions &
   TextOptions &
   ThemeColor &
-  BrowserConsoleConfig
+  JcConsoleConfig
 
-export default class BrowserConsole {
+export default class JcConsole {
   public backgroundColor?: string;
 
   public text?: string;
@@ -60,9 +60,9 @@ export default class BrowserConsole {
 
   public interceptor?: (options:interceptorOptions) => interceptorOptions | void;
 
-  public options?: BrowserConsoleOptions;
+  public options?: JcConsoleOptions;
 
-  constructor(options: BrowserConsoleOptions = {}) {
+  constructor(options: JcConsoleOptions = {}) {
     this.options = options;
     this.backgroundColor = options.backgroundColor || "rgba(0,0,0)";
     this.text = options.text || "text";
@@ -79,7 +79,7 @@ export default class BrowserConsole {
     this.interceptor = options.interceptor;
   }
 
-  private _style(options: BrowserConsoleOptions): CSSProperties {
+  private _style(options: JcConsoleOptions): CSSProperties {
     let style: CSSProperties = {};
     let styleObject: CSSProperties = {};
     const optionsStyle: CSSProperties = options.style;
@@ -103,9 +103,9 @@ export default class BrowserConsole {
     return styleObject;
   }
 
-  private _log(args: BrowserConsoleOptions | Array<BrowserConsoleOptions>) {
+  private _log(args: JcConsoleOptions | Array<JcConsoleOptions>) {
     if (typeof args !== "object" || args === null) return;
-    const logParamsArray: Array<BrowserConsoleOptions> = [];
+    const logParamsArray: Array<JcConsoleOptions> = [];
 
     // init object
     let options = logParamsArray.concat(args)

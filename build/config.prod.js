@@ -35,24 +35,24 @@ const rollupOptions = [
     input: entry,
     output: [
       {
-        file: resolvePublicPath('src/browser-console.cjs.prod.js'),
+        file: resolvePublicPath('src/jc-console.cjs.prod.js'),
         format: 'cjs',
-        name: 'BrowserConsole',
+        name: 'JcConsole',
       },
       {
-        file: resolvePublicPath('src/browser-console.umd.prod.js'),
+        file: resolvePublicPath('src/jc-console.umd.prod.js'),
         format: 'umd',
-        name: 'BrowserConsole',
+        name: 'JcConsole',
       },
       {
-        file: resolvePublicPath('src/browser-console.es.prod.js'),
+        file: resolvePublicPath('src/jc-console.es.prod.js'),
         format: 'es',
-        name: 'BrowserConsole',
+        name: 'JcConsole',
       },
       {
-        file: resolvePublicPath('src/browser-console.iife.prod.js'),
+        file: resolvePublicPath('src/jc-console.iife.prod.js'),
         format: 'iife',
-        name: 'BrowserConsole',
+        name: 'JcConsole',
       },
     ],
     plugins: [

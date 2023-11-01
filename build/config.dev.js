@@ -33,9 +33,9 @@ const rollupOptions = [
   {
     input: entry,
     output: {
-      file: resolvePublicPath('src/browser-console.js'),
+      file: resolvePublicPath('src/jc-console.js'),
       format: 'umd',
-      name: 'BrowserConsole',
+      name: 'JcConsole',
       sourcemap: 'inline'
     },
     plugins: [
@@ -59,7 +59,7 @@ const rollupOptions = [
         open: true,
         openPage: '/example/index.html',
         host: 'localhost',
-        port: 5501,
+        port: '5000',
       }),
       livereload(),
     ],

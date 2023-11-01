@@ -8,6 +8,7 @@ specifiers:
   chalk: ^5.3.0
   csstype: ^3.1.2
   execa: ^8.0.1
+  jc-console: ^1.0.3
   minimist: ^1.2.8
   ora: ^7.0.1
   pretty-error: ^4.0.0
@@ -19,6 +20,9 @@ specifiers:
   rollup-plugin-typescript2: ^0.36.0
   tslib: ^2.6.2
   typescript: ^5.2.2
+
+dependencies:
+  jc-console: 1.0.3
 
 devDependencies:
   '@rollup/plugin-alias': 5.0.1_rollup@4.1.6
@@ -730,6 +734,11 @@ packages:
   /isexe/2.0.0:
     resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==}
     dev: true
+
+  /jc-console/1.0.3:
+    resolution: {integrity: sha512-cl3G/41ijM63EynpQUA45BUzEUIMRzrCzHJMlGmBtcLY34M3Qygx1r22sz2wp2z8eJX0iFhNdHNrr4GYU3inaA==}
+    engines: {node: '>=18.0.0'}
+    dev: false
 
   /js-tokens/4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}

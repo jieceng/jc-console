@@ -1,21 +1,29 @@
 {
-  "name": "browser-console",
-  "version": "1.0.0",
-  "description": "非常便捷的打印各种效果",
-  "main": "lib/src/bundle.iife.js",
-  "module": "lib/src/bundle.es.js",
+  "name": "jc-console",
+  "version": "1.0.3",
+  "description": "Very convenient printing of various effects",
+  "main": "lib/src/jc-console.cjs.prod.js",
+  "module": "lib/src/jc-console.es.prod.js",
   "type": "module",
   "types": "lib/types/index.d.ts",
   "scripts": {
     "build": "node build --mode=production",
     "dev": "node build --mode=development -w",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "publish": "npm publish"
   },
-  "author": "",
+  "private": false,
+  "author": "jiecheng",
   "license": "ISC",
   "engines": {
     "node": ">=18.0.0"
   },
+  "keywords": [
+    "jc-console",
+    "console",
+    "browser",
+    "Beautiful output"
+  ],
   "devDependencies": {
     "@rollup/plugin-alias": "^5.0.1",
     "@rollup/plugin-commonjs": "^25.0.7",

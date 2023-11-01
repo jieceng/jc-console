@@ -14,6 +14,7 @@ const pe = new PrettyError();
 // args transformat
 function argsToExeca(){
   return cliArgs.reduce((last, next)=>{
+    if(next.indexOf('mode')) return last
     last.push(...next.split('='));
     return last;
   },[])
@@ -30,7 +31,7 @@ async function bootstart() {
       `config.${mode === "production" ? "prod" : "dev"}.js`
     );
     let res = await execa("rollup", ["-c", resolve(buildDir, configPath),...argsToExeca()]);
-    console.log(!!res)
+    console.log(res.stderr)
     const endTime = (+new Date())
     spinner.succeed(chalk.green(`打包成功: ${endTime-startTime}ms`));
   } catch (e) {
