@@ -7,6 +7,7 @@ specifiers:
   '@rollup/plugin-terser': ^0.4.4
   chalk: ^5.3.0
   csstype: ^3.1.2
+  dayjs: ^1.11.10
   execa: ^8.0.1
   minimist: ^1.2.8
   ora: ^7.0.1
@@ -16,7 +17,6 @@ specifiers:
   rollup-plugin-dts: ^6.1.0
   rollup-plugin-livereload: ^2.0.5
   rollup-plugin-serve: ^2.0.2
-  rollup-plugin-sizes: ^1.0.5
   rollup-plugin-typescript2: ^0.36.0
   tslib: ^2.6.2
   typescript: ^5.2.2
@@ -28,6 +28,7 @@ devDependencies:
   '@rollup/plugin-terser': 0.4.4_rollup@4.1.6
   chalk: 5.3.0
   csstype: 3.1.2
+  dayjs: 1.11.10
   execa: 8.0.1
   minimist: 1.2.8
   ora: 7.0.1
@@ -37,7 +38,6 @@ devDependencies:
   rollup-plugin-dts: 6.1.0_dnod7kemp7wclkifx4cmcockpy
   rollup-plugin-livereload: 2.0.5
   rollup-plugin-serve: 2.0.2
-  rollup-plugin-sizes: 1.0.5_rollup@4.1.6
   rollup-plugin-typescript2: 0.36.0_dnod7kemp7wclkifx4cmcockpy
   tslib: 2.6.2
   typescript: 5.2.2
@@ -474,6 +474,10 @@ packages:
     resolution: {integrity: sha512-I7K1Uu0MBPzaFKg4nI5Q7Vs2t+3gWWW648spaF+Rg7pI9ds18Ugn+lvg4SHczUdKlHI5LWBXyqfS8+DufyBsgQ==}
     dev: true
 
+  /dayjs/1.11.10:
+    resolution: {integrity: sha512-vjAczensTgRcqDERK0SR2XMwsF/tSvnvlv6VcF2GIhg6Sx4yOIt/irsr1RDJsKiIyBzJDpCoXiWWq28MqH2cnQ==}
+    dev: true
+
   /deepmerge/4.3.1:
     resolution: {integrity: sha512-3sUqbMEc77XqpdNO7FRyRog+eW3ph+GYCbj+rK+uYyRMuwsVy0rMiVtPn+QJlKFvWP/1PYpapqYn0Me2knFn+A==}
     engines: {node: '>=0.10.0'}
@@ -547,11 +551,6 @@ packages:
       onetime: 6.0.0
       signal-exit: 4.1.0
       strip-final-newline: 3.0.0
-    dev: true
-
-  /filesize/9.0.11:
-    resolution: {integrity: sha512-gTAiTtI0STpKa5xesyTA9hA3LX4ga8sm2nWRcffEa1L/5vQwb4mj2MdzMkoHoGv4QzfDshQZuYscQSf8c4TKOA==}
-    engines: {node: '>= 0.4.0'}
     dev: true
 
   /fill-range/7.0.1:
@@ -840,10 +839,6 @@ packages:
     resolution: {integrity: sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==}
     dev: true
 
-  /module-details-from-path/1.0.3:
-    resolution: {integrity: sha512-ySViT69/76t8VhE1xXHK6Ch4NcDd26gx0MzKXLO+F7NOtnqH68d9zF94nT8ZWSxXh8ELOERsnJO/sWt1xZYw5A==}
-    dev: true
-
   /normalize-path/3.0.0:
     resolution: {integrity: sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==}
     engines: {node: '>=0.10.0'}
@@ -1048,16 +1043,6 @@ packages:
     dependencies:
       mime: 3.0.0
       opener: 1.5.2
-    dev: true
-
-  /rollup-plugin-sizes/1.0.5_rollup@4.1.6:
-    resolution: {integrity: sha512-d3HqHZF6aJeU7Sq0BpVhkdkQ7s3oZci0d3TS3/1srbqjRLHrCmrKocKftjW5TR8LwbvCld6GUP4U2HrOoPtScg==}
-    peerDependencies:
-      rollup: ^2 || ^3
-    dependencies:
-      filesize: 9.0.11
-      module-details-from-path: 1.0.3
-      rollup: 4.1.6
     dev: true
 
   /rollup-plugin-typescript2/0.36.0_dnod7kemp7wclkifx4cmcockpy:

@@ -1,6 +1,5 @@
 import type { Properties as CSSProperties } from "csstype";
 import { toCamelCase, camelToKebab } from "./utils";
-
 export interface StyleOptions {
   backgroundColor?: string;
   fontSize?: string;
@@ -62,7 +61,6 @@ export default class JcConsole {
   public interceptor?: (options:interceptorOptions) => interceptorOptions | void;
 
   public options?: JcConsoleOptions;
-
   constructor(options: JcConsoleOptions = {}) {
     this.options = options;
     this.backgroundColor = options.backgroundColor || "rgba(0,0,0)";
