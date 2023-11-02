@@ -54,7 +54,7 @@ const rollupOptions = [
       env === "development"
         ? {
             file: resolveRootPath("example/jc-console.js"),
-            format: "umd",
+            format: "es",
             name: "JcConsole",
             sourcemap: "inline",
           }

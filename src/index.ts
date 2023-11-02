@@ -1,6 +1,7 @@
 import type { Properties as CSSProperties } from "csstype";
 import { toCamelCase, camelToKebab, isUndef } from "./utils";
-export interface StyleOptions {
+
+export interface LogOptinos {
   backgroundColor?: string;
   fontSize?: string;
   color?: string;
@@ -8,10 +9,8 @@ export interface StyleOptions {
   padding?: string;
   margin?: string;
   style?: CSSProperties;
-}
-
-export interface TextOptions {
   text?: string;
+  type?: string;
 }
 export interface ThemeColor {
   primaryColor?: string;
@@ -21,26 +20,14 @@ export interface ThemeColor {
   warnColor?: string;
   successColor?: string;
 }
-export type interceptorOptions = Array<{
-  text: string;
-  style: CSSProperties;
-  type: string;
-}>;
 
-export interface JcConsoleConfig {
+export interface ConsoleConfig {
   interceptor?: (options: LogReturn) => LogReturn | void;
-  type?: string;
   noConsole?: boolean;
 }
 
-export type JcConsoleOptions = StyleOptions &
-  TextOptions &
-  ThemeColor &
-  JcConsoleConfig;
+export type ConsoleOptions = ThemeColor & ConsoleConfig & LogOptinos;
 
-export type LogOptinos = StyleOptions &
-  TextOptions &
-  Omit<JcConsoleConfig, "interceptor">;
 
 export type LogReturn = {
   noConsole: boolean;
@@ -68,10 +55,10 @@ export default class JcConsole {
 
   public defaultStyle: CSSProperties;
 
-  public interceptor: JcConsoleConfig["interceptor"];
+  public interceptor: ConsoleConfig["interceptor"];
   public _noConsole: boolean;
-  public options: JcConsoleOptions;
-  constructor(options: JcConsoleOptions = {}) {
+  public options: ConsoleOptions;
+  constructor(options: ConsoleOptions = {}) {
     this.options = options;
     this.backgroundColor = options.backgroundColor || "rgba(0,0,0)";
     this.text = options.text || "text";
@@ -81,17 +68,19 @@ export default class JcConsole {
     this.radius = options.radius || "2px";
     this.padding = options.padding || "3px 5px";
     this.margin = options.margin || "0 5px 0 0";
+
     this.primaryColor = options.primaryColor || "#165DFF";
     this.dangerColor = options.dangerColor || "#DC3545";
     this.errorColor = options.errorColor || "rgb(245, 108, 108)";
     this.infoColor = options.infoColor || "rgb(144, 147, 153)";
     this.warnColor = options.warnColor || "rgb(230, 162, 60)";
     this.successColor = options.successColor || "rgb(103, 194, 58)";
+
     this.interceptor = options.interceptor;
     this._noConsole = false;
   }
 
-  private _style(options: JcConsoleOptions): CSSProperties {
+  private _style(options: ConsoleOptions): CSSProperties {
     let style: CSSProperties = {};
     let styleObject: CSSProperties = {};
     const optionsStyle: CSSProperties = options.style;
@@ -209,8 +198,7 @@ export default class JcConsole {
       backgroundColor: this.errorColor,
       style,
       type: "error",
-      noConsole,
-    });
+    },noConsole);
   }
 
   danger(text?: string, style?: CSSProperties, noConsole?: boolean): LogReturn {
@@ -219,8 +207,7 @@ export default class JcConsole {
       backgroundColor: this.dangerColor,
       style,
       type: "danger",
-      noConsole,
-    });
+    },noConsole);
   }
 
   info(text?: string, style?: CSSProperties, noConsole?: boolean): LogReturn {
@@ -229,8 +216,7 @@ export default class JcConsole {
       backgroundColor: this.infoColor,
       style,
       type: "info",
-      noConsole,
-    });
+    }, noConsole);
   }
 
   primary(
@@ -243,8 +229,7 @@ export default class JcConsole {
       backgroundColor: this.primaryColor,
       style,
       type: "primary",
-      noConsole,
-    });
+    },noConsole);
   }
 
   log(text?: string, style?: CSSProperties, noConsole?: boolean): LogReturn {
@@ -254,8 +239,7 @@ export default class JcConsole {
       color: "#333",
       style,
       type: "log",
-      noConsole,
-    });
+    },noConsole);
   }
 
   success(
@@ -268,8 +252,7 @@ export default class JcConsole {
       backgroundColor: this.successColor,
       style,
       type: "success",
-      noConsole,
-    });
+    },noConsole);
   }
 
   warn(text?: string, style?: CSSProperties, noConsole?: boolean): LogReturn {
@@ -278,8 +261,7 @@ export default class JcConsole {
       backgroundColor: this.warnColor,
       style,
       type: "warn",
-      noConsole,
-    });
+    }, noConsole);
   }
 
   img(
