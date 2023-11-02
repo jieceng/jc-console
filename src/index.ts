@@ -10,6 +10,7 @@ export interface StyleOptions {
   margin?: string;
   style?: CSSProperties;
 }
+
 export interface TextOptions {
   text?: string;
 }

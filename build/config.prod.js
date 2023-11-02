@@ -7,8 +7,6 @@ import { rootDir } from './utils/path.js'
 import path from 'node:path'
 import terser from '@rollup/plugin-terser'
 
-console.log('生产环境')
-console.log(process.env.NODE_ENV)
 // out public dir
 const publicDir  = 'lib'
 
@@ -55,6 +53,7 @@ const rollupOptions = [
         name: 'JcConsole',
       },
     ],
+    onLog:{},
     plugins: [
       resolve({
         extensions: ['.js', '.ts'],
@@ -68,7 +67,7 @@ const rollupOptions = [
       typescript({
         useTsconfigDeclarationDir: true
       }),
-      terser()
+      terser(),
     ],
   },
   {

@@ -59,7 +59,7 @@ const rollupOptions = [
         open: true,
         openPage: '/example/index.html',
         host: 'localhost',
-        port: '5000',
+        port: '5006',
       }),
       livereload(),
     ],

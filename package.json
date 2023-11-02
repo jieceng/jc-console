@@ -35,7 +35,7 @@
     "minimist": "^1.2.8",
     "ora": "^7.0.1",
     "pretty-error": "^4.0.0",
-    "rollup": "^4.1.4",
+    "rollup": "^4.1.6",
     "rollup-merge-config": "^0.0.12",
     "rollup-plugin-dts": "^6.1.0",
     "rollup-plugin-livereload": "^2.0.5",
