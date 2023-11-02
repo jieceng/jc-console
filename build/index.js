@@ -18,19 +18,15 @@ function buildWatch(options) {
   watcher.on("event", (event) => {
     switch (event.code) {
       case "START": {
-        // console.log('监视器正在（重新）启动');
         break;
       }
       case "BUNDLE_START": {
-        // console.log('单次打包');
         break;
       }
       case "BUNDLE_END": {
-        // console.log('打包完成');
         break;
       }
       case "END": {
-        // console.log('完成所有打包的构建')
         break;
       }
       case "ERROR": {
@@ -59,10 +55,8 @@ function buildWatch(options) {
     console.log(`${dayjs().format("HH:mm:ss")} ${chalk.green("change")} ${id.replace(/\\/g, '/')}`);
   }));
   watcher.on("restart", () => {
-    // console.log('restart')
   });
   watcher.on("close", () => {});
-  // 停止监听
   watcher.close();
 }
 
@@ -82,6 +76,4 @@ async function build() {
     }
   );
 }
-
-// 调用build函数执行打包
 build();

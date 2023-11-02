@@ -1,5 +1,5 @@
 import type { Properties as CSSProperties } from "csstype";
-import { toCamelCase, camelToKebab } from "./utils";
+import { toCamelCase, camelToKebab, isUndef } from "./utils";
 export interface StyleOptions {
   backgroundColor?: string;
   fontSize?: string;
@@ -14,53 +14,63 @@ export interface TextOptions {
   text?: string;
 }
 export interface ThemeColor {
+  primaryColor?: string;
+  dangerColor?: string;
   errorColor?: string;
   infoColor?: string;
   warnColor?: string;
   successColor?: string;
 }
-
-export type interceptorOptions = Array<{text: string; style: CSSProperties, type: string}>;
+export type interceptorOptions = Array<{
+  text: string;
+  style: CSSProperties;
+  type: string;
+}>;
 
 export interface JcConsoleConfig {
-  interceptor?: (options:interceptorOptions) => interceptorOptions | void;
+  interceptor?: (options: LogReturn) => LogReturn | void;
   type?: string;
+  noConsole?: boolean;
 }
 
-
-export type JcConsoleOptions = 
-  StyleOptions &
+export type JcConsoleOptions = StyleOptions &
   TextOptions &
   ThemeColor &
-  JcConsoleConfig
+  JcConsoleConfig;
 
+export type LogOptinos = StyleOptions &
+  TextOptions &
+  Omit<JcConsoleConfig, "interceptor">;
+
+export type LogReturn = {
+  noConsole: boolean;
+  logArgs: Array<string>;
+  styles: Array<CSSProperties>;
+  texts: Array<string>;
+  args: LogOptinos | Array<LogOptinos>;
+  options: Array<Pick<LogOptinos, "style" | "type" | "text">>;
+};
 export default class JcConsole {
-  public backgroundColor?: string;
-
-  public text?: string;
-
-  public fontSize?: string;
-
+  public backgroundColor: string;
+  public text: string;
+  public fontSize: string;
   public color: string;
+  public radius: string;
+  public padding: string;
+  public margin: string;
 
-  public radius?: string;
-
-  public padding?: string;
-  public margin?: string;
-
-  public errorColor?: string;
-
-  public infoColor?: string;
-
-  public warnColor?: string;
-
-  public successColor?: string;
+  public primaryColor: string;
+  public dangerColor: string;
+  public errorColor: string;
+  public infoColor: string;
+  public warnColor: string;
+  public successColor: string;
 
   public defaultStyle: CSSProperties;
 
-  public interceptor?: (options:interceptorOptions) => interceptorOptions | void;
-
-  public options?: JcConsoleOptions;
+  public interceptor: JcConsoleConfig["interceptor"];
+  public _noConsole: boolean;
+  public options: JcConsoleOptions;
   constructor(options: JcConsoleOptions = {}) {
     this.options = options;
     this.backgroundColor = options.backgroundColor || "rgba(0,0,0)";
@@ -71,11 +81,14 @@ export default class JcConsole {
     this.radius = options.radius || "2px";
     this.padding = options.padding || "3px 5px";
     this.margin = options.margin || "0 5px 0 0";
+    this.primaryColor = options.primaryColor || "#165DFF";
+    this.dangerColor = options.dangerColor || "#DC3545";
     this.errorColor = options.errorColor || "rgb(245, 108, 108)";
     this.infoColor = options.infoColor || "rgb(144, 147, 153)";
     this.warnColor = options.warnColor || "rgb(230, 162, 60)";
     this.successColor = options.successColor || "rgb(103, 194, 58)";
     this.interceptor = options.interceptor;
+    this._noConsole = false;
   }
 
   private _style(options: JcConsoleOptions): CSSProperties {
@@ -83,13 +96,15 @@ export default class JcConsole {
     let styleObject: CSSProperties = {};
     const optionsStyle: CSSProperties = options.style;
     style.borderRadius = options.radius || this.radius;
-    ["fontSize", "color", "padding", "backgroundColor", "margin"].forEach((key) => {
-      // @ts-ignore
-      let value = options[key] || this[key];
-      if (!value) return;
-      // @ts-ignore
-      style[key] = value;
-    });
+    ["fontSize", "color", "padding", "backgroundColor", "margin"].forEach(
+      (key) => {
+        // @ts-ignore
+        let value = options[key] || this[key];
+        if (!value) return;
+        // @ts-ignore
+        style[key] = value;
+      }
+    );
     style = {
       ...style,
       ...this.defaultStyle,
@@ -102,14 +117,13 @@ export default class JcConsole {
     return styleObject;
   }
 
-  private _log(args: JcConsoleOptions | Array<JcConsoleOptions>) {
+  private _log(args: LogOptinos | Array<LogOptinos>, noConsole?: boolean) {
     if (typeof args !== "object" || args === null) return;
-    const logParamsArray: Array<JcConsoleOptions> = [];
+    const logParamsArray: Array<LogOptinos> = [];
 
     // init object
-    let options = logParamsArray.concat(args)
-    .map((item) => {
-      const text = `${item.text === undefined ? this.text : item.text}`;
+    let options = logParamsArray.concat(args).map((item) => {
+      const text = `${isUndef(item.text) ? this.text : item.text}`;
       const style = this._style(item);
       return {
         type: item.type,
@@ -117,18 +131,6 @@ export default class JcConsole {
         style,
       };
     });
-
-
-    // interceptor
-    if(this.interceptor && typeof this.interceptor === 'function'){
-      const ops =  this.interceptor(options)
-      if(ops){
-        options = ops
-      }
-    }
-
-    // nodata
-    if(!options?.length) return;
 
     // some object
     const texts = options.map((item) => `%c${item.text}`);
@@ -151,100 +153,181 @@ export default class JcConsole {
           .join("")
       );
     });
+
     // console
-    console.log(strTexts,...strStyles);
+    const iscon = isUndef(noConsole) ? this.options.noConsole : noConsole;
+    let logReturn: LogReturn = {
+      noConsole: iscon,
+      logArgs: [strTexts, ...strStyles],
+      args,
+      texts,
+      options,
+      styles,
+    };
+
+    // interceptor
+    if (!this._noConsole) {
+      if (this.interceptor && typeof this.interceptor === "function") {
+        let res = this.interceptor(logReturn);
+        if (res) {
+          logReturn = res;
+        }
+      }
+      !logReturn.noConsole && console.log(strTexts, ...strStyles);
+    }
+
+    return logReturn;
   }
 
   private _img(
     url: string,
     width = "100px",
     height = "100px",
-    style?: CSSProperties
-  ) {
-    this._log({
-      text: " ",
-      style: {
-        backgroundColor: 'tranparent',
-        padding: `${height} ${width}`,
-        backgroundSize: "contain",
-        backgroundRepeat: "no-repeat",
-        backgroundImage: `url(${url})`,
-        ...style,
+    style?: CSSProperties,
+    noConsole?: boolean
+  ): LogReturn {
+    return this._log(
+      {
+        text: " ",
+        style: {
+          backgroundColor: "tranparent",
+          padding: `${height} ${width}`,
+          backgroundSize: "contain",
+          backgroundRepeat: "no-repeat",
+          backgroundImage: `url(${url})`,
+          ...style,
+        },
+        type: "img",
       },
-      type: 'img'
-    });
+      noConsole
+    );
   }
 
-  error(text?: string, style?:CSSProperties) {
-    this._log({
+  error(text?: string, style?: CSSProperties, noConsole?: boolean): LogReturn {
+    return this._log({
       text: text || "error",
       backgroundColor: this.errorColor,
       style,
-      type: "error"
+      type: "error",
+      noConsole,
     });
   }
 
-  danger(text?: string, style?:CSSProperties) {
-    this._log({
+  danger(text?: string, style?: CSSProperties, noConsole?: boolean): LogReturn {
+    return this._log({
       text: text || "danger",
-      backgroundColor: this.errorColor,
+      backgroundColor: this.dangerColor,
       style,
-      type: "danger"
+      type: "danger",
+      noConsole,
     });
   }
 
-  info(text?: string, style?:CSSProperties) {
-    this._log({
+  info(text?: string, style?: CSSProperties, noConsole?: boolean): LogReturn {
+    return this._log({
       text: text || "info",
       backgroundColor: this.infoColor,
       style,
-      type: 'info'
+      type: "info",
+      noConsole,
     });
   }
 
-  log(text?: string, style?:CSSProperties) {
-    this._log({
-      text: text || "log",
-      backgroundColor: this.infoColor,
+  primary(
+    text?: string,
+    style?: CSSProperties,
+    noConsole?: boolean
+  ): LogReturn {
+    return this._log({
+      text: text || "primary",
+      backgroundColor: this.primaryColor,
       style,
-      type: 'log'
+      type: "primary",
+      noConsole,
     });
   }
 
-  success(text?: string, style?:CSSProperties) {
-    this._log({
+  log(text?: string, style?: CSSProperties, noConsole?: boolean): LogReturn {
+    return this._log({
+      text: text || "log",
+      backgroundColor: "transparent",
+      color: "#333",
+      style,
+      type: "log",
+      noConsole,
+    });
+  }
+
+  success(
+    text?: string,
+    style?: CSSProperties,
+    noConsole?: boolean
+  ): LogReturn {
+    return this._log({
       text: text || "success",
       backgroundColor: this.successColor,
       style,
-      type: 'success'
+      type: "success",
+      noConsole,
     });
   }
 
-  warn(text?: string, style?:CSSProperties) {
-    this._log({
+  warn(text?: string, style?: CSSProperties, noConsole?: boolean): LogReturn {
+    return this._log({
       text: text || "warn",
       backgroundColor: this.warnColor,
       style,
-      type: 'warn'
+      type: "warn",
+      noConsole,
     });
   }
 
-  img(url: string, width: string, height: string, style?: CSSProperties): void;
+  img(
+    url: string,
+    width: string,
+    height: string,
+    style?: CSSProperties,
+    noConsole?: boolean
+  ): LogReturn;
 
   img(params: {
     url: string;
     width?: string;
     height?: string;
     style?: CSSProperties;
-  }): void;
+    noConsole?: boolean;
+  }): LogReturn;
 
-  img(params: any, width?: string, height?: string, style?: CSSProperties) {
+  img(
+    params: any,
+    width?: string,
+    height?: string,
+    style?: CSSProperties,
+    noConsole?: boolean
+  ): LogReturn {
     if (typeof params === "string") {
-      this._img(params, width, height, style);
+      return this._img(params, width, height, style, noConsole);
     }
     if (typeof params === "object") {
       const { url, width, height, style } = params;
-      this._img(url, width, height, style);
+      return this._img(url, width, height, style, noConsole);
     }
+  }
+  row(fn: LogOptinos | Array<LogOptinos>): LogReturn;
+  row(fn: () => Array<LogReturn>): LogReturn;
+  row(
+    fn: (() => Array<LogReturn>) | LogOptinos | Array<LogOptinos>,
+    noConsole?: boolean
+  ): LogReturn {
+    let logparams: LogOptinos | Array<LogOptinos>;
+    if (typeof fn === "function") {
+      this._noConsole = true;
+      let result = this._log(fn().map((item) => item.args as LogOptinos));
+      this._noConsole = false;
+      logparams = result.args;
+    } else {
+      logparams = fn;
+    }
+    return this._log(logparams, noConsole);
   }
 }

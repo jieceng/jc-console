@@ -6,6 +6,6 @@ export function camelToKebab(camelCaseString: string) {
     return camelCaseString.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
 }
 
-
-
-
+export function isUndef(value: any){
+    return value === undefined
+}

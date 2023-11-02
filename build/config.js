@@ -53,7 +53,7 @@ const rollupOptions = [
     output:
       env === "development"
         ? {
-            file: resolvePublicPath("src/jc-console.js"),
+            file: resolveRootPath("example/jc-console.js"),
             format: "umd",
             name: "JcConsole",
             sourcemap: "inline",
@@ -86,9 +86,9 @@ const rollupOptions = [
             ...commonPlugins,
             serve({
               open: false,
-              openPage: "/example/index.html",
+              contentBase: resolveRootPath('example'),
               host: "localhost",
-              port: "5009",
+              port: 5009,
             }),
             livereload(),
           ]
@@ -96,11 +96,7 @@ const rollupOptions = [
     watch: {
       // 配置监听选项
       include: "src/**",
-      exclude: [
-        "node_modules/**",
-        "build/**",
-        "lib/**"
-      ],
+      exclude: ["node_modules/**", "build/**", "lib/**"],
     },
   },
 ];

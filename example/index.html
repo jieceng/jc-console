@@ -4,18 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="../lib/src/jc-console.js"></script>
+    <script src="./jc-console.js"></script>
 </head>
 <body>
     <script>
-        const jConsole = new JcConsole()
-        jConsole.success()
-        jConsole.warn()
-        jConsole.error()
-        jConsole.danger()
-        jConsole.info()
-        jConsole.log()
-        jConsole.img('data:image/png;base64,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', '50px', '50px')
+        const jo = new JcConsole(
+            {
+                noConsole: true,
+                interceptor(logReturn){
+                    console.log(logReturn)
+                }
+            }
+        )
+        jo.primary()
+        console.log(jo.warn())
+        jo.error()
+        jo.danger()
+        jo.info()
+        jo.log()
+        jo.row(()=>[
+            jo.error(),
+            jo.danger(),
+            jo.info(),
+            jo.log(),
+        ], false)
     </script>
 </body>
 </html>
