@@ -6,6 +6,7 @@ import serve from "rollup-plugin-serve";
 import livereload from "rollup-plugin-livereload";
 import { rootDir } from "./utils/path.js";
 import path from "node:path";
+import { dts } from "rollup-plugin-dts";
 import terser from "@rollup/plugin-terser";
 
 const env = process.env.NODE_ENV;
@@ -100,7 +101,7 @@ const rollupOptions = [
     },
   },
 ];
-if (env === "prodcution") {
+if (env === "production") {
   rollupOptions.push({
     input: entry,
     output: [{ file: resolvePublicPath("types/index.d.ts"), format: "esm" }],
