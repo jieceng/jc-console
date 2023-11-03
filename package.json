@@ -15,6 +15,7 @@
   },
   "private": false,
   "author": "jiecheng",
+  "homepage": "https://github.com/jieceng/jc-console",
   "license": "ISC",
   "engines": {
     "node": ">=18.0.0"
@@ -49,6 +50,7 @@
   "files": [
     "lib",
     "package.json",
-    "README.md"
+    "README.md",
+    "images"
   ]
 }
