@@ -86,15 +86,15 @@ new JcConsole(options: ConsoleOptions)
 ### <mark>LogOptinos</mark> (Type)
 | propertie name | description | type | default value |
 |-|-|-|-|
-| backgroundColor | merge to style | `string`|
-| fontSize | merge to style | `string`|
-| color | merge to style | `string`|
-| radius | transformat border-radius merge to style | `string`|
-| padding | merge to style | `string`|
-| margin | merge to style | `string`|
-| style | main style | `CSSProperties`|
-| text | console output text | `string` |
-| type | mark console type | `string` |
+| backgroundColor | merge to style | `string`| "transparent" |
+| fontSize | merge to style | `string`| "text" |
+| color | merge to style | `string`| "#fff" |
+| radius | transformat border-radius merge to style | `string`| "2px" |
+| padding | merge to style | `string`| "3px 5px" |
+| margin | merge to style | `string`| "0 5px 0 0" | 
+| style | main style | `CSSProperties`| `{}` |
+| text | console output text | `string` | "text" |
+| type | mark console type | `string` | - |
 
 ### <mark>ThemeColor</mark> (Type)
 | propertie name | description | type | default value |
