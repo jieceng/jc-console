@@ -60,7 +60,7 @@ export default class JcConsole {
   public options: ConsoleOptions;
   constructor(options: ConsoleOptions = {}) {
     this.options = options;
-    this.backgroundColor = options.backgroundColor || "rgba(0,0,0)";
+    this.backgroundColor = options.backgroundColor || "transparent";
     this.text = options.text || "text";
     this.defaultStyle = options.style || {};
     this.fontSize = options.fontSize || "12px";

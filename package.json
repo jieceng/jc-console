@@ -1,16 +1,17 @@
 {
   "name": "jc-console",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Very convenient printing of various effects",
   "main": "lib/src/jc-console.cjs.prod.js",
   "module": "lib/src/jc-console.es.prod.js",
+  "browser": "lib/src/jc-console.iife.prod.js",
   "type": "module",
   "types": "lib/types/index.d.ts",
   "scripts": {
     "build": "node build --mode=production",
     "dev": "node build --mode=development -w",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "publish": "npm publish"
+    "publish": "npm run build && npm publish"
   },
   "private": false,
   "author": "jiecheng",
