@@ -1,6 +1,6 @@
 {
   "name": "jc-console",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Very convenient printing of various effects",
   "main": "lib/src/jc-console.cjs.prod.js",
   "module": "lib/src/jc-console.es.prod.js",
