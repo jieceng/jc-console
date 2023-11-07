@@ -41,7 +41,7 @@ import JcConsole from 'jc-console'
 Console output
 
 ![示例](https://raw.githubusercontent.com/jieceng/images/main/console/console-img.png)
-## Instalce method
+## Instance method
 > Here are some methods for examples
 
 | method name | description | params | return value | 
