@@ -93,7 +93,7 @@ const rollupOptions = [
             }),
             livereload(),
           ]
-        : [...commonPlugins,],
+        : [...commonPlugins,terser()],
     watch: {
       // 配置监听选项
       include: "src/**",

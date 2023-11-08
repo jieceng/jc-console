@@ -17,9 +17,6 @@
   "author": "jiecheng",
   "homepage": "https://github.com/jieceng/jc-console",
   "license": "ISC",
-  "engines": {
-    "node": ">=18.0.0"
-  },
   "keywords": [
     "jc-console",
     "console",
