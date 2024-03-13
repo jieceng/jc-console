@@ -28,7 +28,6 @@ export interface ConsoleConfig {
 
 export type ConsoleOptions = ThemeColor & ConsoleConfig & LogOptinos;
 
-
 export type LogReturn = {
   noConsole: boolean;
   logArgs: Array<string>;
@@ -193,30 +192,39 @@ export default class JcConsole {
   }
 
   error(text?: string, style?: CSSProperties, noConsole?: boolean): LogReturn {
-    return this._log({
-      text: text || "error",
-      backgroundColor: this.errorColor,
-      style,
-      type: "error",
-    },noConsole);
+    return this._log(
+      {
+        text: text || "error",
+        backgroundColor: this.errorColor,
+        style,
+        type: "error",
+      },
+      noConsole
+    );
   }
 
   danger(text?: string, style?: CSSProperties, noConsole?: boolean): LogReturn {
-    return this._log({
-      text: text || "danger",
-      backgroundColor: this.dangerColor,
-      style,
-      type: "danger",
-    },noConsole);
+    return this._log(
+      {
+        text: text || "danger",
+        backgroundColor: this.dangerColor,
+        style,
+        type: "danger",
+      },
+      noConsole
+    );
   }
 
   info(text?: string, style?: CSSProperties, noConsole?: boolean): LogReturn {
-    return this._log({
-      text: text || "info",
-      backgroundColor: this.infoColor,
-      style,
-      type: "info",
-    }, noConsole);
+    return this._log(
+      {
+        text: text || "info",
+        backgroundColor: this.infoColor,
+        style,
+        type: "info",
+      },
+      noConsole
+    );
   }
 
   primary(
@@ -224,22 +232,28 @@ export default class JcConsole {
     style?: CSSProperties,
     noConsole?: boolean
   ): LogReturn {
-    return this._log({
-      text: text || "primary",
-      backgroundColor: this.primaryColor,
-      style,
-      type: "primary",
-    },noConsole);
+    return this._log(
+      {
+        text: text || "primary",
+        backgroundColor: this.primaryColor,
+        style,
+        type: "primary",
+      },
+      noConsole
+    );
   }
 
   log(text?: string, style?: CSSProperties, noConsole?: boolean): LogReturn {
-    return this._log({
-      text: text || "log",
-      backgroundColor: "transparent",
-      color: "#333",
-      style,
-      type: "log",
-    },noConsole);
+    return this._log(
+      {
+        text: text || "log",
+        backgroundColor: "transparent",
+        color: "#333",
+        style,
+        type: "log",
+      },
+      noConsole
+    );
   }
 
   success(
@@ -247,21 +261,27 @@ export default class JcConsole {
     style?: CSSProperties,
     noConsole?: boolean
   ): LogReturn {
-    return this._log({
-      text: text || "success",
-      backgroundColor: this.successColor,
-      style,
-      type: "success",
-    },noConsole);
+    return this._log(
+      {
+        text: text || "success",
+        backgroundColor: this.successColor,
+        style,
+        type: "success",
+      },
+      noConsole
+    );
   }
 
   warn(text?: string, style?: CSSProperties, noConsole?: boolean): LogReturn {
-    return this._log({
-      text: text || "warn",
-      backgroundColor: this.warnColor,
-      style,
-      type: "warn",
-    }, noConsole);
+    return this._log(
+      {
+        text: text || "warn",
+        backgroundColor: this.warnColor,
+        style,
+        type: "warn",
+      },
+      noConsole
+    );
   }
 
   img(
@@ -295,10 +315,19 @@ export default class JcConsole {
       return this._img(url, width, height, style, noConsole);
     }
   }
-  row(fn: LogOptinos | Array<LogOptinos>): LogReturn;
-  row(fn: () => Array<LogReturn>): LogReturn;
+  row(
+    fn: LogOptinos | Array<LogOptinos>,
+    style?: CSSProperties,
+    noConsole?: boolean
+  ): LogReturn;
+  row(
+    fn: () => Array<LogReturn>,
+    style?: CSSProperties,
+    noConsole?: boolean
+  ): LogReturn;
   row(
     fn: (() => Array<LogReturn>) | LogOptinos | Array<LogOptinos>,
+    style?: CSSProperties,
     noConsole?: boolean
   ): LogReturn {
     let logparams: LogOptinos | Array<LogOptinos>;
@@ -306,7 +335,15 @@ export default class JcConsole {
       this._noConsole = true;
       let result = this._log(fn().map((item) => item.args as LogOptinos));
       this._noConsole = false;
-      logparams = result.args;
+      logparams = (result.args as Array<LogOptinos>).map((item) => {
+        return {
+          ...item,
+          style: {
+            ...item.style,
+            ...style,
+          },
+        };
+      });
     } else {
       logparams = fn;
     }
