@@ -53,7 +53,7 @@ Console output
 | warn | warn theme output content in console |text `?:string` <br/> style `?:CSSProperties` <br/>  noConsole `?:boolean` | `LogReturn` |
 | log | none theme output content in console |text `?:string` <br/> style `?:CSSProperties` <br/>  noConsole `?:boolean` | `LogReturn` |
 | img | output image |  params:{<br/> url: string, <br/> width?: string,<br/>height?: string,<br/>style?: CSSProperties,<br/>noConsole?: boolean} \| {<br/> url: string, <br/> width?: string,<br/>height?: string,<br/>style?: CSSProperties,<br/>noConsole?: boolean}  | `LogReturn` |
-| row | block output content in console |  fn `:(() => Array<LogReturn>)` \| `LogOptinos` \| `Array<LogOptinos>`,<br/> styly `?:CSSProperties` ,<br/> noConsole `?: boolean` | `LogReturn` |
+| row | block output content in console |  fn `:(() => Array<LogReturn>)` \| `LogOptinos` \| `Array<LogOptinos>`,<br/> style `?:CSSProperties` ,<br/> noConsole `?: boolean` | `LogReturn` |
 
 ### <mark>CSSProperties</mark> (Type)
 > all css Properties 
