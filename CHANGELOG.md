@@ -1,4 +1,4 @@
-## v1.0.10 (2024/3/13)
+## v1.0.11 (2024/3/13)
 
 ### 🔨edit
 - row function add style params
