@@ -61,7 +61,7 @@ const rollupOptions = [
           }
         : [
             {
-              file: resolvePublicPath("src/jc-console.cjs.prod.js"),
+              file: resolvePublicPath("src/jc-console.cjs.prod.cjs"),
               format: "cjs",
               name: "JcConsole",
             },

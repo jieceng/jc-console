@@ -1,8 +1,8 @@
 {
   "name": "jc-console",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "Very convenient printing of various effects",
-  "main": "lib/src/jc-console.cjs.prod.js",
+  "main": "lib/src/jc-console.cjs.prod.cjs",
   "module": "lib/src/jc-console.es.prod.js",
   "browser": "lib/src/jc-console.iife.prod.js",
   "type": "module",
